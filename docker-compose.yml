@@ -1,0 +1,51 @@
+---
+version: '3'
+
+services:
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./.docker/dashboard.development.dockerfile
+    command: npm start
+    container_name: dashboard-start
+    image: dashboard
+    networks:
+      - dev-network
+    ports:
+      - '5555:5555'
+    depends_on:
+      - mountebank
+    volumes:
+      - ./src:/home/app/dashboard/src
+      - ./tools:/home/app/dashboard/tools
+
+  mountebank:
+    build:
+      context: ./mountebank
+    volumes:
+      - ./mountebank/imposters:/mb/
+    ports:
+      - '2525:2525'
+      - '8010:8010'
+
+  # deeptracy-api:
+  #  image: bbvalabs/deeptracy
+  #  depends_on:
+  #    - redis
+  #    - postgres
+  #  environment:
+  #    - BROKER_URI=redis://redis:6379
+  #    - DATABASE_URI=postgresql://postgres:postgres@postgres:5432/deeptracy
+  #    - SHARED_VOLUME_PATH=/tmp/deeptracy
+  #    - LOCAL_PRIVATE_KEY_FILE=/tmp/id_rsa
+  #    - PLUGINS_LOCATION=/opt/deeptracy/plugins
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - /tmp:/tmp
+  #  privileged: true
+  #  command: ["./wait-for-it.sh", "postgres:5432", "--", "/opt/deeptracy/run.sh"]
+
+networks:
+  dev-network:
+    driver: bridge

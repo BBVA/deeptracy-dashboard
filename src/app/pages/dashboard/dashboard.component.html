@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12">
+    <span class="title">{{ title }}</span>
+  </div>
+
+  <div class="col-md-12">
+    <nb-card size="small">
+      <nb-tabset (changeTab)="OnClickTab($event)">
+        <nb-tab tabTitle="Scans">
+          <vulnerability></vulnerability>
+        </nb-tab>
+        <nb-tab tabTitle="Vulnerabilities">
+          <vulnerability-table></vulnerability-table>
+          <vulnerability-detail-table *ngIf="tab == 'Vulnerabilities'"></vulnerability-detail-table>
+        </nb-tab>
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>

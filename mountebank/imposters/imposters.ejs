@@ -1,0 +1,63 @@
+{
+  "imposters": [
+    {
+      "port": 8010,
+      "protocol": "http",
+      "stubs": [{
+        "responses": [{
+          "is": {
+            "statusCode": 200,
+            "body": "<%- stringify(filename, 'projects/projects.json') %>",
+            "headers": {
+              "content-type": "application/json",
+              "Access-Control-Allow-Origin": "*"
+            }
+          }
+        }],
+        "predicates": [{
+          "equals": {
+            "path": "/api/project",
+            "method": "GET"
+          }
+        }]
+      },{
+        "responses": [{
+          "is": {
+            "statusCode": 200,
+            "body": "<%- stringify(filename, 'scans/scans.json') %>",
+            "headers": {
+              "content-type": "application/json",
+              "Access-Control-Allow-Origin": "*"
+            }
+          }
+        }],
+        "predicates": [{
+          "matches": {
+            "path": "/api/project/[^/]+/scan",
+            "method": "GET"
+          }
+        }]
+      },{
+        "responses": [{
+          "is": {
+            "statusCode": 200,
+            "body": "<%- stringify(filename, 'vulnerabilities/vulnerabilities-by-scan.json') %>",
+            "headers": {
+              "content-type": "application/json",
+              "Access-Control-Allow-Origin": "*"
+            }
+          },
+          "_behaviors": {
+            "decorate": "<%- stringify(filename, 'vulnerabilities/decorator.ejs') %>"
+          }
+        }],
+        "predicates": [{
+          "matches": {
+            "path": "/api/scan/[^/]+/vulnerability",
+            "method": "GET"
+          }
+        }]
+      }]
+    }
+  ]
+}

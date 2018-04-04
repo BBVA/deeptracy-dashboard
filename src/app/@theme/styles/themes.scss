@@ -1,0 +1,75 @@
+// @nebular theming framework
+@import '~@nebular/theme/styles/theming';
+// @nebular out of the box themes
+@import '~@nebular/theme/styles/themes';
+
+// which themes you what to enable (empty to enable all)
+$nb-enabled-themes: (default, cosmic);
+
+$nb-themes: nb-register-theme((
+ // app wise variables for each theme
+  sidebar-header-gap: 2rem,
+  sidebar-header-height: initial,
+  layout-content-width: 1400px,
+
+  font-main: Roboto,
+  font-secondary: Exo,
+), default, default);
+
+$nb-themes: nb-register-theme((
+  // app wise variables for each theme
+  sidebar-header-gap: 2rem,
+  sidebar-header-height: initial,
+  layout-content-width: 1400px,
+
+  color-bg: rgb(01, 39, 82),
+  color-bg-active: rgb(09, 79, 164),
+  color-primary: rgb(09, 79, 164),
+  color-fg: rgb(00, 158, 229),
+  color-fg-heading: #ffffff,
+  color-fg-text: rgb(00, 158, 229),
+  color-fg-highlight: rgb(120, 230, 255),
+
+  separator: rgb(09, 79, 164),
+  shadow: 0 8px 20px 0 rgba(0, 19, 42, 0.6),
+
+  layout-bg: linear-gradient(to right, rgb(01, 10, 20), rgb(01, 34, 72)),
+
+  scrollbar-fg: rgb(00, 158, 229),
+  scrollbar-bg: rgb(00, 110, 193),
+
+  btn-group-bg: color-bg,
+  btn-group-separator: separator,
+
+  form-control-bg: rgb(01, 39, 82),
+  smart-table-header-font-weight: font-weight-normal,
+  smart-table-header-bg: color-bg-active,
+  smart-table-bg-even: rgb(01, 34, 72),
+  smart-table-bg-active: color-bg-active,
+
+  smart-table-paging-border-width: 2px,
+  smart-table-paging-hover: rgba(0, 0, 0, 0.2),
+
+  radial-gradient: radial-gradient(circle at 50% 50%, rgb(01, 10, 20), rgb(01, 34, 72)),
+  linear-gradient: linear-gradient(to right, rgb(01, 39, 82), rgb(09, 79, 164)),
+
+  search-bg: layout-bg,
+
+  sidebar-fg: color-secondary,
+  sidebar-bg: color-bg,
+
+  header-fg: color-white,
+  header-bg: color-bg,
+
+  footer-fg: color-fg,
+  footer-bg: color-bg,
+
+  actions-fg: color-fg,
+  actions-bg: color-bg,
+
+  user-fg: color-bg,
+  user-bg: color-fg,
+
+  font-main: Roboto,
+  font-secondary: Exo,
+), cosmic, cosmic);

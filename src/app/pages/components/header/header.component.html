@@ -1,0 +1,17 @@
+<div class="header-container left">
+  <div class="logo-containter">
+    <div class="logo" (click)="goToHome()"></div>
+    <div class="title">{{ title }}</div>
+    <div class="search">
+      <span class="term" *ngIf="term">
+        <button class="btn btn-hero-secondary btn-tn" (click)="cleanSearch()">
+        {{ term }} <span class='box'>x</span>
+      </button>
+      </span>
+
+      <nb-search type="rotate-layout" (click)="startSearch()">
+      </nb-search>
+      <span>Search projects...</span>
+    </div>
+  </div>
+</div>

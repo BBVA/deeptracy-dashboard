@@ -1,0 +1,100 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: @{CATALOG_NAME}
+  annotations:
+    description: "Deeptracy Dashboard."
+    tags: "deeptracy-dashboard"
+
+parameters:
+  - name: NAMESPACE
+    description: "Openshift namespace to deploy into."
+    value: "modeling"
+    required: true
+  - name: CPU_REQUEST
+    description: "Minimum cpu requested"
+    value: "1"
+    required: true
+  - name: CPU_LIMIT
+    description: "Maximum cpu requested"
+    value: "2"
+    required: true
+  - name: MEM_REQUEST
+    description: "Minimum memory requested"
+    value: 512Mi
+    required: true
+  - name: MEM_LIMIT
+    description: "Maximum memory requested"
+    value: 1024Mi
+    required: true
+
+objects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: @{NAME}
+      namespace: ${NAMESPACE}
+      labels:
+        app: @{NAME}
+    spec:
+      ports:
+      - protocol: TCP
+        port: 8080
+      clusterIP: None
+      selector:
+        app: @{NAME}
+
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      name: @{NAME}
+      namespace: ${NAMESPACE}
+      labels:
+        app: @{NAME}
+    spec:
+      replicas: 1
+      selector:
+        app: @{NAME}
+      template:
+        metadata:
+          labels:
+            app: @{NAME}
+        spec:
+          serviceAccountName: modeling-bot
+          serviceAccount: modeling-bot
+          containers:
+          - image: @{DOCKER_IMAGE}
+            name: @{NAME}
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 8080
+              protocol: TCP
+            readinessProbe:
+              tcpSocket:
+                port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 10
+            livenessProbe:
+              tcpSocket:
+                port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 20
+            resources:
+              requests:
+                cpu: ${CPU_REQUEST}
+                memory: ${MEM_REQUEST}
+              limits:
+                cpu: ${CPU_LIMIT}
+                memory: ${MEM_LIMIT}
+
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      name: @{NAME}
+      namespace: ${NAMESPACE}
+      labels:
+        app: @{NAME}
+    spec:
+      to:
+        kind: Service
+        name: @{NAME}
