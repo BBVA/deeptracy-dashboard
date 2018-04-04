@@ -39,7 +39,7 @@ class Dependencies {
           let version = packageDependencie.version
           let url = packageDependencie.repository?packageDependencie.repository.url:packageDependencie.homepage || packageDependencie._resolved
           let author = packageDependencie.author?packageDependencie.author.name || packageDependencie.author:''
-          let license = packageDependencie.license.type || packageDependencie.license
+          let license = packageDependencie.license?packageDependencie.license.type || packageDependencie.license:''
           console.log(name + '|' + url + '|' + license + '|' +  'x' + '|' + version)
         })
     }
